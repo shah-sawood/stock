@@ -7,6 +7,11 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
+# from django.contrib.auth.password_validation import UserAttributeSimilarityValidator
+# from django.contrib.auth.password_validation import MinimumLengthValidator
+# from django.contrib.auth.password_validation import CommonPasswordValidator
+# from django.contrib.auth.password_validation import NumericPasswordValidator
+
 # Create your views here.
 def login_user(request):
     """logs a user in"""
@@ -18,6 +23,7 @@ def login_user(request):
         password = request.POST.get("password")
 
         user = authenticate(username=username, password=password)
+        print(user, username, password)
         if user is not None:
             login(request, user)
             return HttpResponseRedirect(reverse("shop:index"))

@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block main %}
+<div class="col-12 col-md-6 offset-md-3">
+    <div class="card shadow">
+        <div class="card-header">
+            {{ data.name }}
+        </div>
+        <div class="list-group list-group-flush">
+            <div class="list-group-item">Price: ${{ data.price|floatformat }}</div>
+            <div class="list-group-item">Symbol: {{ data.symbol }}</div>
+            <a class="list-group-item list-group-item-action active" href="{% url 'shop:buy' %}?symbol={{ data.symbol }}">Buy</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

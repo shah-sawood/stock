@@ -11,11 +11,11 @@
     <title>{% block title %}{{ title|title|default:"Home" }}{% endblock %} - Finance</title>
 </head>
 
-<body>
+<body class="bg-light">
     {% include 'navbar.html' %}
     <div class="container my-5" style="min-height:60vh">
         <div class="row">
-            {% if message %}
+            {% if messages %}
             <div class="col-12 col-md-6 offset-md-3">
                 {% for message in messages %}
                 <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible show fade" role=alert>

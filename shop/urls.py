@@ -22,4 +22,5 @@ app_name = "shop"
 urlpatterns = [
     path("", views.index, name="index"),
     path("quote/", views.quote, name="quote"),
+    path("buy/", views.buy, name="buy"),
 ]

@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     # my apps
     "shop",
     "user",
+    # extensions
+    "django_extensions",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -124,6 +126,10 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
+LOGIN_URL = "user:login"
+LOGOUT_URL = "shop:index"
+LOGOUT_REDIRECT_URL = "shop:index"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
