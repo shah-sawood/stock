@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block main %}
+<form action="{% url 'user:register' %}" method="post" class="needs-validation" novalidate>
+    {% csrf_token %}
+    <div class="mb-3 col-12 col-md-6 offset-md-3">
+        <input autocomplete="off" required autofocus class="form-control" id="username" name="username" placeholder="Username" type="text">
+        <div class="invalid-feedback">Please provide your username</div>
+    </div>
+    <div class="mb-3 col-12 col-md-6 offset-md-3 position-relative">
+        <input class="form-control" required id="password" name="password" placeholder="Password" type="password">
+        <span class="position-absolute" style="top:15%;right:2%;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+            </svg>
+        </span>
+        <div class="invalid-feedback">Please provide your password</div>
+    </div>
+    <div class="mb-3 col-12 col-md-6 offset-md-3">
+        <input class="form-control" required id="confirmation" name="confirmation" placeholder="Confirm Password" type="password">
+        <div class="invalid-feedback">Please confirm your password</div>
+    </div>
+    <div class="col-12 text-center">
+        <button class="btn btn-primary btn-sm" type="submit">Register</button>
+    </div>
+</form>
+{% endblock %}

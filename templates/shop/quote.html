@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block main %}
+    <form action="{% url 'shop:quote' %}" method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="mb-3 col-12 col-md-4 offset-md-4">
+            <label for="symbol" class="form-label">Symbol</label>
+            <input name=symbol class="form-control" required id="symbol" placeholder="Symbol" pattern="[aA-zZ]">
+            <div class="invalid-feedback">Please provid an alphabetic symbol</div>
+        </div>
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-sm btn-primary">Lookup</button>
+        </div>
+    </form>
+{% endblock %}
