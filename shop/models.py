@@ -17,6 +17,7 @@ class Purchase(models.Model):
 
     def get_purchaser(self):
         """returns the user who made this purchase"""
+        return self.user
 
     def get_symbol(self):
         """returns symbol of this purchase"""
@@ -37,3 +38,55 @@ class Purchase(models.Model):
     def __str__(self):
         """returns the string represention of this purchase"""
         return f"{self.symbol} ({self.name})"
+
+
+class Portfolio(models.Model):
+    """portfolio"""
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="account")
+    total = models.PositiveIntegerField(default=10000)
+    cash = models.PositiveIntegerField(default=10000, validators=[MinValueValidator(0)])
+
+    def get_user(self):
+        """returns the user of this portfolio"""
+        return self.user
+
+    def get_total(self):
+        """returns the total amount of this account"""
+        return self.total
+
+    def get_cash(self):
+        """returns the remaining cash of this portfolio"""
+        return self.cash
+
+    def __str__(self):
+        """returns the string representation of the portfolio"""
+        return f"{self.user} -> {self.cash}"
+
+
+class History(models.Model):
+    """history model"""
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="history")
+    symbol = models.CharField(max_length=7, unique=True)
+    shares = models.PositiveIntegerField(validators=[MinValueValidator(0)])
+    price = models.FloatField(validators=[MinValueValidator(0)])
+    date_transacted = models.DateTimeField(auto_now_add=True)
+
+    histories = models.Manager()
+
+    def get_symbol(self):
+        """returns the symbol of history"""
+        return self.symbol
+
+    def get_shares(self):
+        """returns the shares of history"""
+        return self.shares
+
+    def get_price(self):
+        """returns the price of history"""
+        return self.price
+
+    def get_date_transacted(self):
+        """returns the date_transacted of history"""
+        return self.date_transacted

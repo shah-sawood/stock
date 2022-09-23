@@ -19,11 +19,10 @@ def login_user(request):
     context["title"] = "login"
 
     if request.method == "POST":
-        username = request.POST.get("username")
+        username = request.POST.get("username").lower()
         password = request.POST.get("password")
 
         user = authenticate(username=username, password=password)
-        print(user, username, password)
         if user is not None:
             login(request, user)
             return HttpResponseRedirect(reverse("shop:index"))
@@ -42,7 +41,7 @@ def register_user(request):
     context = {}
     context["title"] = "register"
     if request.method == "POST":
-        username = request.POST.get("username")
+        username = request.POST.get("username").lower()
         password = request.POST.get("password")
         confirmation = request.POST.get("confirmation")
 

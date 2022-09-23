@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% load shop_filters %}
+{% load humanize %}
+{% block main %}
+{% if histories %}
+<div class="table-responsive">
+    <table class="table table-hover border-dark">
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Shares</th>
+                <th>Price</th>
+                <th>Transacted</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            {% for history in histories %}
+            <tr>
+                <td>{{ history.get_symbol }}</td>
+                <td>{{ history.get_shares }}</td>
+                <td>{{ history.get_price|usd }}</td>
+                <td>{{ history.get_date_transacted|naturalday }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="col-12">
+    <div class="alert alert-success fade show alert-dismissible" role="alert">
+        No data available to display.
+        <a href="{% url 'shop:index' %}">
+            <button class="btn-close" data-bs-dismiss="alert"></button>
+        </a>
+    </div>
+</div>
+{% endif %}
+{% endblock main %}

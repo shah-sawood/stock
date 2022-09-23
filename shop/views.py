@@ -9,7 +9,7 @@ from shop.utils import lookup
 from django.db.models import Sum
 from django.db import IntegrityError
 
-from .models import Purchase
+from .models import History, Purchase, Portfolio
 
 if os.environ.get("API_KEY") is None:
     raise RuntimeError(
@@ -23,8 +23,8 @@ def index(request):
     context = {}
     purchases = Purchase.purchases.filter(user=request.user).order_by("-id")
     context["purchases"] = purchases
-    q = Purchase.purchases.filter(user=request.user).aggregate(Sum("price"))
-    print(q)
+    # q = Purchase.purchases.filter(user=request.user).aggregate(Sum("price"))
+    # print(q)
     return render(request, "shop/index.html", context)
 
 
@@ -52,26 +52,47 @@ def buy(request):
     if request.method == "POST":
         symbol = request.POST.get("symbol")
         shares = request.POST.get("shares")
-        if not (symbol or shares):
-            messages.error(request, "Missing symbol and/or shares.")
+        if not symbol:
+            messages.error(request, "Missing symbol.")
+        elif not shares:
+            messages.error(request, "Missing shares.")
         else:
             data = lookup(symbol)
             if data is not None:
                 try:
-                    purchase = Purchase.purchases.create(
-                        user=request.user,
-                        symbol=symbol,
-                        name=data["name"],
-                        shares=shares,
-                        price=data["price"],
-                    )
+                    total = int(shares) * data.get("price")
+                    portfolio = Portfolio.objects.get(user=request.user)
+                    cash = portfolio.get_cash()
+
+                    if total > cash:
+                        messages.error(
+                            request,
+                            "You have insufficient cash for this transaction to perform",
+                        )
+                    else:
+                        purchase = Purchase.purchases.create(
+                            user=request.user,
+                            symbol=symbol,
+                            name=data.get("name"),
+                            shares=shares,
+                            price=data.get("price"),
+                        )
+                        portfolio.cash -= total
+                        portfolio.save()
                 except IntegrityError:
                     purchase = Purchase.purchases.get(user=request.user, symbol=symbol)
+                    portfolio.cash -= total
+                    portfolio.save()
                     purchase.shares += int(shares)
                     purchase.save()
+                History.histories.create(
+                    user=request.user,
+                    symbol=symbol,
+                    shares=shares,
+                    price=data.get("price"),
+                )
                 return HttpResponseRedirect(reverse("shop:index"))
-            else:
-                messages.error(request, "Something went wrong. Please try again later.")
+            messages.error(request, "Something went wrong. Please try again later.")
 
     symbol = request.GET.get("symbol")
     if symbol is not None:
@@ -79,3 +100,9 @@ def buy(request):
         if data is not None:
             context["data"] = data
     return render(request, "shop/buy.html", context)
+
+
+def history(request):
+    """returns the transactions history of current user"""
+    context = {}
+    return render(request, "shop/history.html", context)

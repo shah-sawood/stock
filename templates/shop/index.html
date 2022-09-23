@@ -28,12 +28,12 @@
             <tr>
                 <td class="border-0" colspan="3"></td>
                 <th class="border-0">Cash</th>
-                <td class="border-0">$655.63</td>
+                <td class="border-0">{{ request.user.account.get_cash|usd }}</td>
             </tr>
             <tr>
                 <td class="border-0" colspan="3"></td>
                 <th class="border-0">TOTAL</th>
-                <td class="border-0">{{ 10000|usd }}</td>
+                <td class="border-0">{{ request.user.account.get_total|usd }}</td>
             </tr>
         </tfoot>
     </table>
@@ -42,7 +42,7 @@
 <div class="col-12">
     <div class="alert alert-success" role="alert">
         <h4 class="alert-heading">Nothing Found</h4>
-        <p>There is nothing avaible in your account to display.</p>
+        <p>There is nothing availble in your account to display.</p>
         <hr>
         <p class="mb-0">If looking for something to buy click <a href="{% url 'shop:quote' %}" class="alert-link">here</a>. If looking for history of your sells and purchases click <a href="#" class="alert-link">here</a>.</p>
     </div>

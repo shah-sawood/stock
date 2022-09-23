@@ -23,4 +23,5 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("quote/", views.quote, name="quote"),
     path("buy/", views.buy, name="buy"),
+    path("history/", views.history, name="history"),
 ]
