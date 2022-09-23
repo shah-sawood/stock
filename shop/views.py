@@ -21,6 +21,7 @@ if os.environ.get("API_KEY") is None:
 def index(request):
     """displays the index page of the stock"""
     context = {}
+    context["title"] = "home"
     context["purchases"] = Purchase.purchases.filter(user=request.user).order_by("-id")
     return render(request, "shop/index.html", context)
 
