@@ -27,6 +27,9 @@ jobs:
         pip install django
         pip install django-extensions
         pip install requests
+    - name: Set Environment Variables
+      run: |
+        export API_KEY=pk_e293c6fceb6e4067a743215a848529e5
     - name: Run Tests
       run: |
         python manage.py test
