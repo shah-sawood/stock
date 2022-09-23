@@ -1,14 +1,20 @@
 {% extends "layout.html" %}
 {% block main %}
-    <form action="{% url 'shop:quote' %}" method="post" class="needs-validation" novalidate>
-        {% csrf_token %}
-        <div class="mb-3 col-12 col-md-4 offset-md-4">
-            <label for="symbol" class="form-label">Symbol</label>
-            <input name=symbol class="form-control" required autofocus id="symbol" placeholder="Symbol" pattern="[aA-zZ]{}">
-            <div class="invalid-feedback">Please provid an alphabetic symbol</div>
+<div class="col-12 col-md-4 offset-md-4">
+    <div class="card shadow-lg border-0">
+        <div class="card-body">
+            <form action="{% url 'shop:quote' %}" method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+                <div class="mb-3 text-center">
+                    <label for="symbol" class="form-label">Symbol</label>
+                    <input name=symbol class="form-control" required autofocus id="symbol" placeholder="Symbol" pattern="[aA-zZ]{}">
+                    <div class="invalid-feedback">Please provid an alphabetic symbol</div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-sm btn-primary">Lookup</button>
+                </div>
+            </form>
         </div>
-        <div class="col-12 text-center">
-            <button type="submit" class="btn btn-sm btn-primary">Lookup</button>
-        </div>
-    </form>
+    </div>
+</div>
 {% endblock %}

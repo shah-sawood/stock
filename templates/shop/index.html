@@ -8,9 +8,9 @@
             <tr>
                 <th>Symbol</th>
                 <th>Name</th>
-                <th>Shares</th>
-                <th>Price</th>
-                <th>TOTAL</th>
+                <th class="text-end">Shares</th>
+                <th class="text-end">Price</th>
+                <th class="text-end">TOTAL</th>
             </tr>
         </thead>
         <tbody class="table-group-divider">
@@ -18,22 +18,22 @@
             <tr>
                 <td>{{ purchase.get_symbol }}</td>
                 <td>{{ purchase.get_name }}</td>
-                <td>{{ purchase.get_shares }}</td>
-                <td>{{ purchase.get_price|usd }}</td>
-                <td>{{ purchase.get_shares|multiply:purchase.get_price|usd }}</td>
+                <td class="text-end">{{ purchase.get_shares }}</td>
+                <td class="text-end">{{ purchase.get_price|usd }}</td>
+                <td class="text-end">{{ purchase.get_shares|multiply:purchase.get_price|usd }}</td>
             </tr>
             {% endfor %}
         </tbody>
         <tfoot>
             <tr>
                 <td class="border-0" colspan="3"></td>
-                <th class="border-0">Cash</th>
-                <td class="border-0">{{ request.user.account.get_cash|usd }}</td>
+                <th class="border-0 text-end">Cash</th>
+                <td class="border-0 text-end">{{ request.user.account.get_cash|usd }}</td>
             </tr>
             <tr>
                 <td class="border-0" colspan="3"></td>
-                <th class="border-0">TOTAL</th>
-                <td class="border-0">{{ request.user.account.get_total|usd }}</td>
+                <th class="border-0 text-end">TOTAL</th>
+                <td class="border-0 text-end">{{ request.user.account.get_total|usd }}</td>
             </tr>
         </tfoot>
     </table>

@@ -1,6 +1,17 @@
+{% block head %}
+<style>
+    svg {
+            transition: all 1s;
+        }
+        svg:hover {
+            transition: all 800ms;
+            transform: rotate(360deg) scale(1.5);
+        }
+    </style>
+{% endblock %}
 <nav class="bg-light sticky-top shadow navbar navbar-expand-md navbar-light">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'shop:index' %}"><span class="blue">S</span><span class="red">t</span><span class="yellow">0</span><span class="green">c</span><span class="red">k</span></a>
+        <a class="navbar-brand" href="{% url 'shop:index' %}"><span class="blue">S</span><span class="red">T</span><span class="yellow">O</span><span class="green">C</span><span class="red">K</span></a>
         <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar" data-bs-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -22,16 +33,31 @@
             </ul>
             <ul class="navbar-nav ms-auto mt-2">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'user:logout' %}">Logout</a>
+                    <a class="nav-link text-danger" href="{% url 'user:logout' %}" title="logout">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+                            <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                        </svg>
+                    </a>
                 </li>
             </ul>
             {% else %}
             <ul class="navbar-nav ms-auto mt-2">
                 <li class="nav-item">
-                    <a class="nav-link{% if title == 'register' %} active{% endif %}" href="{% url 'user:register' %}">Register</a>
+                    <a class="nav-link{% if title == 'register' %} active{% endif %}" href="{% url 'user:register' %}" title="register">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
+                            <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                            <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+                        </svg>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link{% if title == 'login' %} active{% endif %}" href="{% url 'user:login' %}">Login</a>
+                    <a class="nav-link text-success{% if title == 'login' %} active{% endif %}" href="{% url 'user:login' %}" title="login">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2z" />
+                            <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z" />
+                        </svg>
+                    </a>
                 </li>
             </ul>
             {% endif %}

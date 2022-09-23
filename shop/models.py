@@ -1,4 +1,5 @@
 """models"""
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
@@ -14,6 +15,10 @@ class Purchase(models.Model):
     price = models.FloatField(validators=[MinValueValidator(0)])
 
     purchases = models.Manager()
+
+    def get_account(self):
+        """returns the account of the purchaser"""
+        return self.get_purchaser().account
 
     def get_purchaser(self):
         """returns the user who made this purchase"""
@@ -44,8 +49,13 @@ class Portfolio(models.Model):
     """portfolio"""
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="account")
-    total = models.PositiveIntegerField(default=10000)
-    cash = models.PositiveIntegerField(default=10000, validators=[MinValueValidator(0)])
+    total = models.FloatField(default=10000, validators=[MinValueValidator(0)])
+    cash = models.FloatField(default=10000, validators=[MinValueValidator(0)])
+
+    def clean(self):
+        """clean the fields"""
+        if self.cash > self.total:
+            raise ValidationError("Cash can't exceed total amount in the account.")
 
     def get_user(self):
         """returns the user of this portfolio"""
@@ -68,7 +78,7 @@ class History(models.Model):
     """history model"""
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="history")
-    symbol = models.CharField(max_length=7, unique=True)
+    symbol = models.CharField(max_length=7)
     shares = models.PositiveIntegerField(validators=[MinValueValidator(0)])
     price = models.FloatField(validators=[MinValueValidator(0)])
     date_transacted = models.DateTimeField(auto_now_add=True)

@@ -9,6 +9,7 @@
     <link rel="icon" href="{% static 'favicon.ico' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>{% block title %}{{ title|title|default:"Home" }}{% endblock %} - Finance</title>
+    {% block head %}{% endblock %}
 </head>
 
 <body class="bg-light">

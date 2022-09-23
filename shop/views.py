@@ -21,10 +21,7 @@ if os.environ.get("API_KEY") is None:
 def index(request):
     """displays the index page of the stock"""
     context = {}
-    purchases = Purchase.purchases.filter(user=request.user).order_by("-id")
-    context["purchases"] = purchases
-    # q = Purchase.purchases.filter(user=request.user).aggregate(Sum("price"))
-    # print(q)
+    context["purchases"] = Purchase.purchases.filter(user=request.user).order_by("-id")
     return render(request, "shop/index.html", context)
 
 
@@ -32,6 +29,7 @@ def index(request):
 def quote(request):
     """allows a user to look up a stock’s current price"""
     context = {}
+    context["title"] = "quote"
     if request.method == "POST":
         symbol = request.POST.get("symbol")
         if not symbol:
@@ -77,20 +75,14 @@ def buy(request):
                             shares=shares,
                             price=data.get("price"),
                         )
-                        portfolio.cash -= total
-                        portfolio.save()
                 except IntegrityError:
-                    purchase = Purchase.purchases.get(user=request.user, symbol=symbol)
+                    purchase = Purchase.purchases.select_for_update().get(
+                        user=request.user, symbol=symbol
+                    )
                     portfolio.cash -= total
                     portfolio.save()
                     purchase.shares += int(shares)
                     purchase.save()
-                History.histories.create(
-                    user=request.user,
-                    symbol=symbol,
-                    shares=shares,
-                    price=data.get("price"),
-                )
                 return HttpResponseRedirect(reverse("shop:index"))
             messages.error(request, "Something went wrong. Please try again later.")
 
@@ -105,4 +97,6 @@ def buy(request):
 def history(request):
     """returns the transactions history of current user"""
     context = {}
+    context["title"] = "history"
+    context["histories"] = History.histories.filter(user=request.user).order_by("-id")
     return render(request, "shop/history.html", context)
